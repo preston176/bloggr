@@ -1,10 +1,26 @@
 import { Link } from "react-router-dom"
 import { nav } from './../../demoData.ts';
+import { useEffect, useState } from "react";
 
 
 const DemoHeader = () => {
+
+    const [isActive, setIsActive] = useState<boolean>(false);
+
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 50) {
+                setIsActive(true)
+            } else {
+                setIsActive(false)
+            }
+
+        }
+        window.addEventListener('scroll', handleScroll)
+    }, []);
     return (
-        <div className="border-b border-black sticky top-0 z-50 bg-banner">
+        <div className={`border-b border-black sticky top-0 z-50 ${isActive ? "bg-white" : "bg-banner"} transition-all duration-600`} >
             <div className="w-[95%] md:w-[90%] mx-auto h-[70px] flex items-center justify-between">
                 <Link to={'/'}>
                     <img
@@ -26,7 +42,7 @@ const DemoHeader = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
