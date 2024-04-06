@@ -1,8 +1,9 @@
+import Banner from "./Banner"
 
 const Demo = () => {
   return (
     <div>
-      Demo
+      <Banner />
     </div>
   )
 }
