@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom"
 import { nav } from './../../demoData.ts';
 import { useEffect, useState } from "react";
+import Auth from "./Auth/Auth.tsx";
 
 
 const DemoHeader = () => {
@@ -38,6 +39,7 @@ const DemoHeader = () => {
                     </div>
                     <div className="relative flex gap-x-5">
                         <button className="hidden text-sm sm:flex items-center gap-5">Log In</button>
+                        <Auth />
                         <button className="bg-black text-white rounded-full px-3 p-2 text-sm font-medium">Get Started</button>
                     </div>
                 </div>
