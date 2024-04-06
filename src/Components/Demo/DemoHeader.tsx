@@ -7,7 +7,7 @@ import Auth from "./Auth/Auth.tsx";
 const DemoHeader = () => {
 
     const [isActive, setIsActive] = useState<boolean>(false);
-    const [modal, setModal] = useState<boolean>(true);
+    const [modal, setModal] = useState<boolean>(false);
 
     useEffect(() => {
         const handleScroll = () => {
