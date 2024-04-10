@@ -1,10 +1,21 @@
+import { Form } from "../Demo/Auth/SignUp";
 
 interface props {
     type: string;
     title: string;
+    form: Form;
+    setForm: React.Dispatch<React.SetStateAction<Form>>;
 }
 
-const Input = ({ type, title }: props) => {
+const Input = ({ type, title, form, setForm }: props) => {
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
     return (
         <div className="flex flex-col gap-2">
             <label className="text-sm capitalize">{title}</label>
@@ -12,8 +23,9 @@ const Input = ({ type, title }: props) => {
                 className="text-center border-b border-black outline-none"
                 type={type}
                 title={title}
+                onChange={handleChange}
             />
-         
+
         </div>
     )
 }

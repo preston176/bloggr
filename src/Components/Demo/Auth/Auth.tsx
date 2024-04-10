@@ -19,7 +19,7 @@ interface props {
 }
 
 const Auth = ({ modal, setModal }: props) => {
-    const [createUser, setCreateUser] = useState<boolean>(false);
+    const [createUser, setCreateUser] = useState<boolean>(true);
     const [signReq, setSignReq] = useState<string>('');
     const navigate = useNavigate();
 
@@ -73,12 +73,12 @@ const Auth = ({ modal, setModal }: props) => {
                                         icon={<AiOutlineMail className="text-xl" />} text={`${createUser ? "Sign Up" : "Continue"} With E-Mail`} />
                                 </div>
                                 <p>
-                                    {createUser ? "Don't have an account ?" : "Already have an account?"} <button onClick={() => setCreateUser(prevstate => !prevstate)} className="text-blue-500 cursor-pointer font-bold">{createUser ? "Sign Up" : "Log In"}</button>
+                                    {createUser ? "Already have an account?" : "Don't have an account"} <button onClick={() => setCreateUser(prevstate => !prevstate)} className="text-blue-500 cursor-pointer font-bold">{createUser ? "Log In" : "Sign Up"}</button>
                                 </p>
                             </>
                         ) : signReq === "sign-in" ?
                             (
-                                <SignIn />
+                                <SignIn setSignReq={setSignReq} />
                             )
                             : signReq === "sign-up" ?
                                 (<SignUp setSignReq={setSignReq} />) : null}
