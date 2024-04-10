@@ -1,6 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase/firebase";
+import Loading from "../Components/Loading/Loading";
 
 interface ContextProps {
     children: React.ReactNode;
@@ -18,19 +19,22 @@ const blogContext = createContext<BlogContextType>({
 
 const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
     const [currentUser, setCurrentUser] = useState<boolean | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
     useEffect(() => {
+        setLoading(true)
         const unsubscribe = onAuthStateChanged(auth, user => {
             if (user) {
                 setCurrentUser(true);
             } else {
                 setCurrentUser(false);
             }
+            setLoading(false);
         });
         return unsubscribe;
     }, []);
     return (
         <blogContext.Provider value={{ currentUser, setCurrentUser }}>
-            {children}
+            {loading ? <Loading /> : children}
         </blogContext.Provider>
     );
 };
