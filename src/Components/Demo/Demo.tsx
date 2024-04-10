@@ -1,10 +1,22 @@
+import Posts from "../Common/Posts/Posts"
 import Banner from "./Banner"
+import Discover from "./Discover"
+import Trending from "./Trending"
 
 const Demo = () => {
   return (
-    <div>
+    <>
       <Banner />
-    </div>
+      <Trending />
+      <div className="size py-7 flex flex-col-reverse md:flex-row gap-[8rem]">
+        <div className="flex-[1.5]">
+          <Posts />
+        </div>
+        <div className="flex-[1] h-full relative">
+          <Discover />
+        </div>
+      </div>
+    </>
   )
 }
 
