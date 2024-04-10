@@ -1,22 +1,33 @@
-import React, { createContext, useContext, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { auth } from "../firebase/firebase";
 
 interface ContextProps {
     children: React.ReactNode;
 }
 
 interface BlogContextType {
-    currentUser: boolean;
-    setCurrentUser: React.Dispatch<React.SetStateAction<boolean>>;
+    currentUser: boolean | null;
+    setCurrentUser: React.Dispatch<React.SetStateAction<boolean | null>>;
 }
 
 const blogContext = createContext<BlogContextType>({
-    currentUser: false,
+    currentUser: null,
     setCurrentUser: () => { }
 });
 
 const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
-    const [currentUser, setCurrentUser] = useState<boolean>(false);
-
+    const [currentUser, setCurrentUser] = useState<boolean | null>(null);
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, user => {
+            if (user) {
+                setCurrentUser(true);
+            } else {
+                setCurrentUser(false);
+            }
+        });
+        return unsubscribe;
+    }, []);
     return (
         <blogContext.Provider value={{ currentUser, setCurrentUser }}>
             {children}

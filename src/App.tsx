@@ -4,9 +4,10 @@ import Home from './Components/Home/Home';
 import DemoHeader from './Components/Demo/DemoHeader';
 import Header from './Components/Home/Header';
 import Demo from './Components/Demo/Demo';
+import { useBlogContext } from './Context/Context';
 
 const App = () => {
-  const currentUser = false;
+  const {currentUser} = useBlogContext()
   return (
     <>
       {currentUser ? <Header /> : <DemoHeader />}
