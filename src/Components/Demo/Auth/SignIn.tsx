@@ -2,11 +2,16 @@ import Input from "../../utils/Input"
 import { MdKeyboardArrowLeft } from "react-icons/md"
 import { useState } from "react";
 import { Form } from "./SignUp";
+import { toast } from "react-toastify";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../../firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 interface props {
     setSignReq: React.Dispatch<React.SetStateAction<string>>;
 
 }
+
 
 const SignIn = ({ setSignReq }: props) => {
     const [form, setForm] = useState<Form>({
@@ -14,9 +19,23 @@ const SignIn = ({ setSignReq }: props) => {
         password: '',
 
     })
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(form);
+        if (form['email'] === '' || form['password'] === '') {
+            toast.error("Please fill in Both Email and Password")
+            return;
+        }
+
+        try {
+            await signInWithEmailAndPassword(auth, form['email'], form['password']);
+            navigate("/") //take user to home page
+            toast.success("Signed In Successfully")
+        } catch (error) {
+            toast.error("Failed to Sign In")
+            console.error(error)
+        }
     };
     return (
         <div className="size mt-[6rem] text-center">
