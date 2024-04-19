@@ -12,7 +12,7 @@ const Input = ({ type, title, form, setForm }: props) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({
             ...form,
-            [e.target.name]: e.target.value,
+            [title]: e.target.value,
         });
     };
 

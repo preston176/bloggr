@@ -23,7 +23,7 @@ const SignUp = ({ setSignReq }: props) => {
 
     })
 
-    const handleSubmit = (e:React.FormEvent<HTMLFormElement> ) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         console.log(form)
     }
@@ -36,7 +36,7 @@ const SignUp = ({ setSignReq }: props) => {
                 <Input form={form} setForm={setForm} type="username" title="username" />
                 <Input form={form} setForm={setForm} type="email" title="email" />
                 <Input form={form} setForm={setForm} type="password" title="password" />
-                <Input form={form} setForm={setForm} type="confirmPassword" title="Re-Enter Password" />
+                <Input form={form} setForm={setForm} type="confirmPassword" title="confirmPassword" />
                 <button
                     onClick={() => handleSubmit}
                     className="px-4 py-1 text-sm rounded-full bg-green-700 hover:bg-green-800 text-white w-fit mx-auto">Sign Up</button>
