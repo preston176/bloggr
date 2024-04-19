@@ -1,6 +1,6 @@
 import Input from "../../utils/Input"
 import { MdKeyboardArrowLeft } from "react-icons/md"
-import { MouseEventHandler, useState } from "react";
+import { useState } from "react";
 import { Form } from "./SignUp";
 
 interface props {
