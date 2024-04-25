@@ -2,7 +2,7 @@ import Input from "../../utils/Input"
 import { MdKeyboardArrowLeft } from "react-icons/md"
 import { useState } from "react";
 import { Form } from "./SignUp";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
