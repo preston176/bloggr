@@ -7,40 +7,56 @@ import { MdKeyboardArrowDown } from "react-icons/md"
 import Modal from "../utils/Modal"
 import { useState } from "react"
 import UserModal from "./UserModal"
+import { CiSearch } from "react-icons/ci"
 
 const Header = () => {
     const [modal, setModal] = useState<boolean>(false)
+    const [searchModal, setSearchModal] = useState<boolean>(false);
 
     return (
         <header className="border-b border-gray-200">
             <div className="size h-[60px] flex items-center justify-between px-16">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 ">
                     <Link to={"/"}>
                         <span className="text-5xl"><RxActivityLog /></span>
                     </Link>
-                    <Search />
+                    <div className="hidden sm:flex"> {/* Hide on small screens */}
+                        <Search modal={searchModal} setModal={setSearchModal} />
+                    </div>
+
                 </div>
                 {/* right */}
                 <div className="flex items-center gap-3 sm:gap-7">
-                    <Link className="hidden md:flex items-center gap-1 text-gray-500" to={""}>  <span className="text-3xl"> <LiaEditSolid /></span>
+                    <span className="flex sm:hidden text3xl text-gray-300 cursor-pointer"
+                        onClick={() => setSearchModal(true)}
+                    >
+                        <CiSearch size={35} />
+                    </span>
+                    <Link className="hidden md:flex items-center gap-1 text-gray-500" to={"/write"}>  <span className="text-3xl"> <LiaEditSolid /></span>
                         <span className="text-sm mt-2">Start Writing</span>
                     </Link>
                     <span className="text-3xl text-gray-500 cursor-pointer">
                         <IoMdNotificationsOutline />
                     </span>
-                    <div className="flex items-center relative">
+                    <div
+
+                        className="flex items-center relative">
                         <RxAvatar onClick={() => setModal(true)} className="cursor-pointer w-[2.3rem] h-[2.3rem] object-cover" size={35} color="gray" />
                         <span className="text-gray-500 cursor-pointer">
                             <MdKeyboardArrowDown />
                         </span>
                         {/* modal */}
-                        <Modal modal={modal} setModal={setModal} >
-                            <div
+                        <div onClick={() => setModal(false)}>
+                            <Modal modal={modal} setModal={setModal} >
+                                <div
 
-                                className={`${modal ? "visible opacity-100%" : "invisible opacity-0"} transition-all duration-500`}>
-                                <UserModal setModal={setModal} />
-                            </div>
-                        </Modal>
+                                    className={`${modal ? "visible opacity-100%" : "invisible opacity-0"} transition-all duration-500`}>
+                                    <UserModal
+
+                                        setModal={setModal} />
+                                </div>
+                            </Modal>
+                        </div>
                     </div>
                 </div>
             </div>
