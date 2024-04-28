@@ -29,13 +29,15 @@ const Header = () => {
                         <IoMdNotificationsOutline />
                     </span>
                     <div className="flex items-center relative">
-                        <RxAvatar className="cursor-pointer w-[2.3rem] h-[2.3rem] object-cover" size={35} color="gray" />
+                        <RxAvatar onClick={() => setModal(true)} className="cursor-pointer w-[2.3rem] h-[2.3rem] object-cover" size={35} color="gray" />
                         <span className="text-gray-500 cursor-pointer">
                             <MdKeyboardArrowDown />
                         </span>
                         {/* modal */}
                         <Modal modal={modal} setModal={setModal} >
-                            <div className="">
+                            <div
+
+                                className={`${modal ? "visible opacity-100%" : "invisible opacity-0"} transition-all duration-500`}>
                                 <UserModal setModal={setModal} />
                             </div>
                         </Modal>
@@ -47,4 +49,3 @@ const Header = () => {
 }
 
 export default Header
-

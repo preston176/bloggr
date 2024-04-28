@@ -54,7 +54,7 @@ const UserModal: React.FC<UserModalProps> = ({ setModal }) => {
     };
 
     return (
-        <section className="absolute w-[18rem] p-6 bg-white right-0 top-[100%] shadows rounded-md z-50 text-gray-500">
+        <section className="absolute right-0 w-[18rem] p-6 bg-white shadows rounded-md z-50 text-gray-500">
             <Link to="/write" className="flex md:hidden items-center gap-1 text-gray-500">
                 <span className="text-3xl">
                     <LiaEditSolid />
