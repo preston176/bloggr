@@ -7,6 +7,7 @@ import { LiaTimesSolid } from "react-icons/lia"
 import { RxAvatar } from 'react-icons/rx';
 import { discoverActions } from "../../demoData"
 import { IoSettingsSharp } from "react-icons/io5"
+import EditProfile from "./EditProfile"
 
 const Profile = () => {
     const activities = [
@@ -26,6 +27,7 @@ const Profile = () => {
 
     const [currentActivity, setCurrentActivity] = useState<{ title: string, component: () => JSX.Element }>(activities[0])
     const [modal, setModal] = useState<boolean>(false);
+    const [editModal, setEditModal] = useState<boolean>(false);
 
     return (
         <section className="size flex gap-[4rem] relative">
@@ -77,7 +79,9 @@ const Profile = () => {
                             className="w-[3.5rem] h-[3.5rem] object-cover rounded-full" />
                         <h2 className="py-2 font-bold capitalize">Preston M</h2>
                         <p className="text-gray-500 first-letter:uppercase text-sm">I am a web dev</p>
-                        <button className="text-green-700 pt-6 text-sm w-fit">Edit Profile Details</button>
+                        <button
+                            onClick={() => setEditModal(true)}
+                            className="text-green-700 pt-6 text-sm w-fit">Edit Profile Details</button>
                         {/* navigation */}
                         <div className="flex-[1] flex items-center flex-wrap gap-3 pt-8">
                             {
@@ -89,6 +93,10 @@ const Profile = () => {
                     </div>
                 </div>
             </Modal>
+            {
+                editModal && <EditProfile editModal={editModal} setEditModal={setEditModal} />
+            }
+
         </section>
     )
 }
