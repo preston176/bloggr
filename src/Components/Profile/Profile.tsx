@@ -35,9 +35,8 @@ const Profile = () => {
     const [editModal, setEditModal] = useState(false);
 
     const getUserData = allUsers.find((user: UserDetails) => user.id === userId);
-    console.log(getUserData)
     return (
-        <section className="size flex gap-[4rem] relative">
+        <section className="size flex gap-[4rem] relative px-20 sm:px-10">
             {/* users activities  */}
             <div className="mt-[9rem] flex-[2]">
                 <div className="flex items-end gap-4">
@@ -68,7 +67,8 @@ const Profile = () => {
                     ))}
                 </div>
                 <currentActive.comp
-
+                    getUserData={getUserData}
+                    setEditModal={setEditModal}
                 />
             </div>
             {/* button to open the side bar  */}
