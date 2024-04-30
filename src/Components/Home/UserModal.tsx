@@ -55,13 +55,13 @@ const UserModal: React.FC<UserModalProps> = ({ setModal }) => {
 
     return (
         <section
-        
-            className="absolute right-0 w-[18rem] p-6 bg-white shadows rounded-md z-50 text-gray-500">
+
+            className="absolute right-4 top-6 w-[18rem] p-6 bg-white shadows rounded-md z-50 text-gray-500">
             <Link to="/write" className="flex md:hidden items-center gap-1 text-gray-500">
-                <span className="text-3xl">
+                <span className="text-3xl pb-2">
                     <LiaEditSolid />
                 </span>
-                <span className="text-sm mt-2">Write</span>
+                <span className="text-md my-2 pb-2">Write</span>
             </Link>
             <div className="flex flex-col gap-4 border-b border-gray-300 pb-5">
                 {userModal.map((link, i) => (
