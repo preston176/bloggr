@@ -16,6 +16,7 @@ export interface UserDetails {
     photoURL: string;
     username: string;
     userImg: string;
+    userId: string
 }
 
 
