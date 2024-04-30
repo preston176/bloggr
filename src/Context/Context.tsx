@@ -8,21 +8,32 @@ import { User } from "firebase/auth"; // Import User interface
 interface ContextProps {
     children: React.ReactNode;
 }
+// Define UserDetails interface
+export interface UserDetails {
+    bio: string;
+    email: string;
+    id: string;
+    photoURL: string;
+    username: string;
+}
+
 
 interface BlogContextType {
     currentUser: User | null;
     setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
+    allUsers: UserDetails[];
 }
 
 const blogContext = createContext<BlogContextType>({
     currentUser: null,
     setCurrentUser: () => { },
+    allUsers: [], // Provide the initial value for allUsers as an empty array
 });
 
 const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true); // Set loading to true initially
-    const [allUsers, setAllUsers] = useState<User[]>([]); // Type allUsers as User[]
+    const [allUsers, setAllUsers] = useState<UserDetails[]>([]); // Type allUsers as User[]
 
     useEffect(() => {
         setLoading(true);
@@ -43,7 +54,7 @@ const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
             onSnapshot(postRef, (snapshot) => {
                 setAllUsers(
                     snapshot.docs.map((doc) => ({
-                        ...doc.data() as User, // Assert doc.data() as User
+                        ...doc.data() as UserDetails, // Assert doc.data() as User
                         id: doc.id,
                     }))
                 );
@@ -52,9 +63,9 @@ const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
         getUsers();
     }, []);
 
-    console.log(allUsers); 
+    // console.log(allUsers); 
     return (
-        <blogContext.Provider value={{ currentUser, setCurrentUser }}>
+        <blogContext.Provider value={{ currentUser, setCurrentUser, allUsers }}>
             {loading ? <Loading /> : children}
         </blogContext.Provider>
     );
