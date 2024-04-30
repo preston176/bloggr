@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import ProfileHome from "./Activities/ProfileHome";
 import ProfileLists from "./Activities/ProfileLists";
 import ProfileAbout from "./Activities/ProfileAbout";
@@ -7,8 +7,14 @@ import { LiaTimesSolid } from "react-icons/lia";
 import { IoSettingsSharp } from "react-icons/io5";
 import EditProfile from "./EditProfile";
 import { discoverActions } from './../../demoData';
+import { UserDetails, useBlogContext } from "../../Context/Context";
+import { useParams } from "react-router-dom";
+
+
 
 const Profile = () => {
+    const { allUsers } = useBlogContext();
+    const userId = useParams().userId as string;
 
     const activities = [
         {
@@ -28,13 +34,15 @@ const Profile = () => {
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
 
+    const getUserData = allUsers.find((user: UserDetails) => user.id === userId);
+    console.log(getUserData)
     return (
         <section className="size flex gap-[4rem] relative">
             {/* users activities  */}
             <div className="mt-[9rem] flex-[2]">
                 <div className="flex items-end gap-4">
                     <h2 className="text-3xl sm:text-5xl font-bold capitalize">
-                        Preston M
+                        {getUserData?.username}
                     </h2>
                     <p className="text-gray-500 text-xs sm:text-sm">
                         Followers(10)
