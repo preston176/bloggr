@@ -169,7 +169,7 @@ const EditProfile = ({ editModal, setEditModal, getUserData, setModal }: {
 
                         })}
                         className='p-1 border-b border-black w-full outline-none' type="text" placeholder='Username ...' maxLength={50} />
-                    <p className='text-sm text-gray-600 pt-2'>This will appear on your Profile page, as well as your byline, and in your responses. 10/50</p>
+                    <p className='text-sm text-gray-600 pt-2'>This will appear on your Profile page, as well as your byline, and in your responses. {form.username.length}/50</p>
                     <label className='pb-3 block' htmlFor="">Bio</label>
                     <input
                         value={form.bio}
@@ -179,7 +179,7 @@ const EditProfile = ({ editModal, setEditModal, getUserData, setModal }: {
 
                         })}
                         className='p-1 border-b border-black w-full outline-none' type="text" placeholder='Your Bio ...' maxLength={50} />
-                    <p className='text-sm text-gray-600 pt-2'>This will appear on your Profile page and next to your stories. 42/160</p>
+                    <p className='text-sm text-gray-600 pt-2'>This will appear on your Profile page and next to your stories. {form.bio.length}/160</p>
                 </section>
                 {/* footer */}
                 <div className="flex items-center justify-end gap-4 pt-[2rem]">
