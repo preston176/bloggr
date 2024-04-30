@@ -15,6 +15,7 @@ export interface UserDetails {
     id: string;
     photoURL: string;
     username: string;
+    userImg: string;
 }
 
 
@@ -22,18 +23,21 @@ interface BlogContextType {
     currentUser: User | null;
     setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
     allUsers: UserDetails[];
+    userLoading: boolean;
 }
 
 const blogContext = createContext<BlogContextType>({
     currentUser: null,
     setCurrentUser: () => { },
     allUsers: [], // Provide the initial value for allUsers as an empty array
+    userLoading: true,
 });
 
 const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
     const [loading, setLoading] = useState<boolean>(true); // Set loading to true initially
     const [allUsers, setAllUsers] = useState<UserDetails[]>([]); // Type allUsers as User[]
+    const [userLoading, setUserLoading] = useState<boolean>(true)
 
     useEffect(() => {
         setLoading(true);
@@ -58,6 +62,7 @@ const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
                         id: doc.id,
                     }))
                 );
+                setUserLoading(false)
             });
         };
         getUsers();
@@ -65,7 +70,7 @@ const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
 
     // console.log(allUsers); 
     return (
-        <blogContext.Provider value={{ currentUser, setCurrentUser, allUsers }}>
+        <blogContext.Provider value={{ currentUser, setCurrentUser, allUsers, userLoading }}>
             {loading ? <Loading /> : children}
         </blogContext.Provider>
     );
