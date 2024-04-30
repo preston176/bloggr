@@ -123,7 +123,7 @@ const Profile = () => {
             </Modal>
 
             <EditProfile
-
+                getUserData={getUserData}
                 editModal={editModal}
                 setEditModal={setEditModal}
             />
