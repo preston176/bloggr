@@ -1,16 +1,17 @@
 import { onAuthStateChanged } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { auth } from "../firebase/firebase";
+import { auth, db } from "../firebase/firebase";
 import Loading from "../Components/Loading/Loading";
-import firebase from "firebase/compat/app";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { User } from "firebase/auth"; // Import User interface
 
 interface ContextProps {
     children: React.ReactNode;
 }
 
 interface BlogContextType {
-    currentUser: firebase.User | null;
-    setCurrentUser: React.Dispatch<React.SetStateAction<firebase.User | null>>;
+    currentUser: User | null;
+    setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const blogContext = createContext<BlogContextType>({
@@ -19,15 +20,15 @@ const blogContext = createContext<BlogContextType>({
 });
 
 const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
-    const [currentUser, setCurrentUser] = useState<firebase.User | null>(null);
-    const [loading, setLoading] = useState<boolean>(false);
+    const [currentUser, setCurrentUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState<boolean>(true); // Set loading to true initially
+    const [allUsers, setAllUsers] = useState<User[]>([]); // Type allUsers as User[]
 
     useEffect(() => {
         setLoading(true);
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
-                // Cast the user object to the expected type
-                setCurrentUser(user as firebase.User);
+                setCurrentUser(user);
             } else {
                 setCurrentUser(null);
             }
@@ -35,6 +36,23 @@ const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
         });
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        const getUsers = () => {
+            const postRef = query(collection(db, "users")); // Modify query as needed
+            onSnapshot(postRef, (snapshot) => {
+                setAllUsers(
+                    snapshot.docs.map((doc) => ({
+                        ...doc.data() as User, // Assert doc.data() as User
+                        id: doc.id,
+                    }))
+                );
+            });
+        };
+        getUsers();
+    }, []);
+
+    console.log(allUsers); 
     return (
         <blogContext.Provider value={{ currentUser, setCurrentUser }}>
             {loading ? <Loading /> : children}
