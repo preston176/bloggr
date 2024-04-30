@@ -1,9 +1,12 @@
 import { LiaTimesSolid } from 'react-icons/lia';
 import Modal from './../utils/Modal';
-import { FormEvent, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UserDetails } from '../../Context/Context';
 import { toast } from 'react-toastify';
 import ToastNotifier from '../Common/ToastNotifier';
+import { db, storage } from './../../firebase/firebase';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import { doc, updateDoc } from 'firebase/firestore';
 
 const EditProfile = ({ editModal, setEditModal, getUserData }: {
     editModal: boolean;
@@ -45,14 +48,49 @@ const EditProfile = ({ editModal, setEditModal, getUserData }: {
 
     // function to handle form submission
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (form["username"] === "" || form["bio"] === "") {
-            toast.error("Please fill all fields")
-            return;
+    
+        try {
+            if (form.username === "" || form.bio === "") {
+                toast.error("Please fill all fields");
+                return;
+            }
+    
+            // Check if userImg is not null before uploading
+            if (form.userImg) {
+                // Upload image to storage
+                const storageRef = ref(storage, `image/${form.userImg.name}`);
+                await uploadBytes(storageRef, form.userImg);
+    
+                // Get image download URL
+                const imageUrl = await getDownloadURL(storageRef);
+    
+                // Update user data in the database with image URL
+                const docRef = doc(db, "users", getUserData?.userId || "");
+                await updateDoc(docRef, {
+                    username: form.username,
+                    bio: form.bio,
+                    userImg: imageUrl,
+                });
+            } else {
+                // Update user data in the database without image URL
+                const docRef = doc(db, "users", getUserData?.userId || "");
+                await updateDoc(docRef, {
+                    username: form.username,
+                    bio: form.bio,
+                });
+            }
+    
+            toast.success("Profile updated successfully");
+            setEditModal(false);
+        } catch (error) {
+            console.error("Error updating profile: ", error);
+            toast.error("An error occurred while updating your profile");
         }
-        console.log(form)
-    }
+    };
+    
+
 
     return (
         <Modal modal={editModal} setModal={setEditModal}>
