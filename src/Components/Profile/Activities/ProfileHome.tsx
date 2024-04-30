@@ -1,5 +1,9 @@
+import { UserDetails } from "../../../Context/Context";
 
-const ProfileHome = () => {
+const ProfileHome = ({ getUserData, setEditModal }: {
+    getUserData: UserDetails | undefined;
+    setEditModal: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
     return (
         <div>
             ProfileHome
