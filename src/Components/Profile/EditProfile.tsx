@@ -11,11 +11,23 @@ const EditProfile = ({ editModal, setEditModal }: {
         imgRef?.current?.click()
     }
     const [imgUrl, setImgUrl] = useState<string>("")
+    const [form, setForm] = useState<{ username: string, userImg: File | null, bio: string }>({
+        username: "",
+        userImg: null,
+        bio: ""
+    })
+
+    // function to handle form submission
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(form)
+    }
 
     return (
         <Modal modal={editModal} setModal={setEditModal}>
 
-            <div className="center w-[95%] md:w-[45rem] bg-white mx-auto shadows my-[1rem] z-20 mb-[3rem] p-[2rem]">
+            <form onSubmit={handleSubmit} className="center w-[95%] md:w-[45rem] bg-white mx-auto shadows my-[1rem] z-20 mb-[3rem] p-[2rem]">
                 {/* head */}
                 <div className="flex items-center justify-between">
                     <h2 className='font-bold text-xl'>Profile Info</h2>
@@ -33,9 +45,10 @@ const EditProfile = ({ editModal, setEditModal }: {
                                         const file = e.target.files[0];
                                         const imgUrl = URL.createObjectURL(file);
                                         setImgUrl(imgUrl);
+                                        setForm({ ...form, userImg: e.target.files[0] })
                                     }
                                 }}
-                                accept='image/jpg, image/png, image/jpeg' ref={imgRef} type="file" hidden />
+                                ref={imgRef} type="file" accept='image/jpg, image/png, image/jpeg' hidden />
                         </div>
                         <div>
                             <div className="flex gap-4 text-sm">
@@ -49,18 +62,30 @@ const EditProfile = ({ editModal, setEditModal }: {
                 {/* prof edit form */}
                 <section className='pt-[1rem] text-sm'>
                     <label className='pb-3 block' htmlFor="">Name</label>
-                    <input className='p-1 border-b border-black w-full outline-none' type="text" placeholder='Username ...' maxLength={50} />
+                    <input
+                        onChange={(e) => setForm({
+                            ...form,
+                            username: e.target.value
+
+                        })}
+                        className='p-1 border-b border-black w-full outline-none' type="text" placeholder='Username ...' maxLength={50} />
                     <p className='text-sm text-gray-600 pt-2'>This will appear on your Profile page, as well as your byline, and in your responses. 10/50</p>
                     <label className='pb-3 block' htmlFor="">Bio</label>
-                    <input className='p-1 border-b border-black w-full outline-none' type="text" placeholder='Your Bio ...' maxLength={50} />
+                    <input
+                        onChange={(e) => setForm({
+                            ...form,
+                            bio: e.target.value
+
+                        })}
+                        className='p-1 border-b border-black w-full outline-none' type="text" placeholder='Your Bio ...' maxLength={50} />
                     <p className='text-sm text-gray-600 pt-2'>This will appear on your Profile page and next to your stories. 42/160</p>
                 </section>
                 {/* footer */}
                 <div className="flex items-center justify-end gap-4 pt-[2rem]">
                     <button className='border border-green-600 py-2 px-5 rounded-full text-green-600'>Cancel</button>
-                    <button className='border border-green-600 py-2 px-5 rounded-full bg-green-800 text-white'>Save Changes</button>
+                    <button className='border border-green-600 py-2 px-5 rounded-full bg-green-800 text-white' type='submit' onClick={() => handleSubmit} onSubmit={() => handleSubmit}>Save Changes</button>
                 </div>
-            </div>
+            </form>
 
         </Modal>
     )
