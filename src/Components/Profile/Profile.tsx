@@ -86,7 +86,7 @@ const Profile = () => {
                     <div className="sticky top-7 flex flex-col justify-between">
                         <img
                             className="w-[3.5rem] h-[3.5rem] object-cover rounded-full"
-                            src={""}
+                            src={"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"}
                             alt="profile-img"
                         />
                         <h2 className="py-2 font-bold capitalize">
