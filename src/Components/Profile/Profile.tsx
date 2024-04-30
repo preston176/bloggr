@@ -9,6 +9,7 @@ import EditProfile from "./EditProfile";
 import { discoverActions } from './../../demoData';
 import { UserDetails, useBlogContext } from "../../Context/Context";
 import { useParams } from "react-router-dom";
+import ToastNotifier from "../Common/ToastNotifier";
 
 
 
@@ -37,6 +38,7 @@ const Profile = () => {
     const getUserData = allUsers.find((user: UserDetails) => user.id === userId);
     return (
         <section className="size flex gap-[4rem] relative px-20 sm:px-10">
+            <ToastNotifier />
             {/* users activities  */}
             <div className="mt-[9rem] flex-[2]">
                 <div className="flex items-end gap-4">
@@ -94,7 +96,7 @@ const Profile = () => {
                     <div className="sticky top-7 flex flex-col justify-between">
                         <img
                             className="w-[3.5rem] h-[3.5rem] object-cover rounded-full"
-                            src={"https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"}
+                            src={getUserData ? getUserData?.userImg : "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"}
                             alt="profile-img"
                         />
                         <h2 className="py-2 font-bold capitalize">
@@ -126,6 +128,7 @@ const Profile = () => {
                 getUserData={getUserData}
                 editModal={editModal}
                 setEditModal={setEditModal}
+                setModal={setModal}
             />
 
         </section>
