@@ -1,4 +1,4 @@
-import { RxActivityLog, RxAvatar } from "react-icons/rx"
+import { RxActivityLog } from "react-icons/rx"
 import { Link } from "react-router-dom"
 import Search from "./Search"
 import { LiaEditSolid } from "react-icons/lia"
@@ -8,13 +8,20 @@ import Modal from "../utils/Modal"
 import { useState } from "react"
 import UserModal from "./UserModal"
 import { CiSearch } from "react-icons/ci"
+import { UserDetails, useBlogContext } from "../../Context/Context"
+import Loading from "../Loading/Loading"
 
 const Header = () => {
+    const { allUsers, userLoading, currentUser } = useBlogContext()
     const [modal, setModal] = useState<boolean>(false)
     const [searchModal, setSearchModal] = useState<boolean>(false);
 
+    // fetch current user data
+    const getUserData = allUsers.find((user: UserDetails) => user.id === currentUser?.uid)
+
     return (
         <header className="border-b border-gray-200">
+            {userLoading && <Loading />}
             <div className="size h-[60px] flex items-center justify-between px-16">
                 <div className="flex items-center gap-3 ">
                     <Link to={"/"}>
@@ -41,7 +48,7 @@ const Header = () => {
                     <div
 
                         className="flex items-center relative">
-                        <RxAvatar onClick={() => setModal(true)} className="cursor-pointer w-[2.3rem] h-[2.3rem] object-cover" size={35} color="gray" />
+                        <img src={getUserData?.userImg ? getUserData?.userImg : "https://upload.wikimedia.org/wikipedia/commons/a/ac/Default_pfp.jpg"} onClick={() => setModal(true)} className="cursor-pointer w-[2.3rem] h-[2.3rem] object-cover" color="gray" alt="Profile image" />
                         <span className="text-gray-500 cursor-pointer">
                             <MdKeyboardArrowDown />
                         </span>
