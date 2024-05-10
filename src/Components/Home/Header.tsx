@@ -1,5 +1,5 @@
 import { RxActivityLog } from "react-icons/rx"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import Search from "./Search"
 import { LiaEditSolid } from "react-icons/lia"
 import { IoMdNotificationsOutline } from "react-icons/io"
@@ -15,6 +15,9 @@ const Header = () => {
     const { allUsers, userLoading, currentUser } = useBlogContext()
     const [modal, setModal] = useState<boolean>(false)
     const [searchModal, setSearchModal] = useState<boolean>(false);
+
+    const { pathname } = useLocation();
+
 
     // fetch current user data
     const getUserData = allUsers.find((user: UserDetails) => user.id === currentUser?.uid)
@@ -39,9 +42,11 @@ const Header = () => {
                     >
                         <CiSearch size={35} />
                     </span>
-                    <Link className="hidden md:flex items-center gap-1 text-gray-500" to={"/write"}>  <span className="text-3xl"> <LiaEditSolid /></span>
-                        <span className="text-sm mt-2">Start Writing</span>
-                    </Link>
+                    {
+                        pathname === "/write" ? <button className="btn !bg-green-700 !py-1 !text-white !rounded-full">Publish</button> : <Link className="hidden md:flex items-center gap-1 text-gray-500" to={"/write"}>  <span className="text-3xl"> <LiaEditSolid /></span>
+                            <span className="text-sm mt-2">Start Writing</span>
+                        </Link>
+                    }
                     <span className="text-3xl text-gray-500 cursor-pointer">
                         <IoMdNotificationsOutline />
                     </span>
