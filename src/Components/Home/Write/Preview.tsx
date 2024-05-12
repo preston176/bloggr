@@ -1,10 +1,13 @@
 import { LiaTimesSolid } from "react-icons/lia"
 import { useRef, useState } from "react";
 import ReactQuill from 'react-quill';
+import TagsInput from 'react-tagsinput';
 
 const Preview = () => {
-    const imageRef = useRef<HTMLInputElement>(null)
-    const [imageUrl, setImageUrl] = useState<string>('')
+    const imageRef = useRef<HTMLInputElement>(null);
+    const [imageUrl, setImageUrl] = useState<string>('');
+    const [tags, setTags] = useState<string[]>([]);
+
     const handleClick = () => {
         imageRef?.current?.click()
     }
@@ -46,9 +49,11 @@ const Preview = () => {
                             <span className="font-bold">
                                 Note:</span> Changing this section will affect how your story appears in public
                         </p>
+                        <TagsInput value={tags} onChange={() => setTags} />
                     </div>
                     <div className="flex-[1] flex flex-col gap-4 mb-5 md:mb-0">
-                        <h3 className="text-2xl">Publishing to: Preston M</h3>
+                        <h3 className="text-2xl">Publishing to: <span className="font-bold">Preston M</span></h3>
+
                     </div>
                 </div>
             </div></section>
@@ -57,4 +62,4 @@ const Preview = () => {
 
 export default Preview
 
-
+//4:08:42
