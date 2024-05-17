@@ -50,6 +50,9 @@ const Preview = () => {
                                 Note:</span> Changing this section will affect how your story appears in public
                         </p>
                         <TagsInput value={tags} onChange={() => setTags} />
+                        <button className="btn !bg-green-800 !w-fit !text-white">
+                            Publish
+                        </button>
                     </div>
                     <div className="flex-[1] flex flex-col gap-4 mb-5 md:mb-0">
                         <h3 className="text-2xl">Publishing to: <span className="font-bold">Preston M</span></h3>
@@ -61,5 +64,3 @@ const Preview = () => {
 }
 
 export default Preview
-
-//4:08:42
