@@ -4,10 +4,10 @@ import ReactQuill from 'react-quill';
 import TagsInput from 'react-tagsinput';
 
 interface Props {
-    setPublish: 
+    setPublish: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Preview = (setPublish: Props) => {
+const Preview = ({ setPublish }: Props) => {
     const imageRef = useRef<HTMLInputElement>(null);
     const [imageUrl, setImageUrl] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
@@ -19,7 +19,7 @@ const Preview = (setPublish: Props) => {
     return (
         <section
             className="absolute inset-0 bg-white z-30"
-        ><div className="size my-[2rem]"><span className="absolute right-[1rem] md:right-5[rem] top-[3rem] text-2xl cursor-pointer">
+        ><div className="size my-[2rem]"><span onClick={() => setPublish(false)} className="absolute right-[1rem] md:right-5[rem] top-[3rem] text-2xl cursor-pointer">
             <LiaTimesSolid />
         </span>
                 <div className="mt-[8rem] flex flex-col md:flex-row gap-10">
