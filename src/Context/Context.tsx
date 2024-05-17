@@ -3,7 +3,6 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
 import Loading from "../Components/Loading/Loading";
 import { collection, onSnapshot, query } from "firebase/firestore";
-import { Value } from "react-quill";
 
 interface ContextProps {
     children: React.ReactNode;
@@ -24,8 +23,8 @@ interface BlogContextType {
     setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
     allUsers: UserDetails[];
     userLoading: boolean;
-    publish: Value;
-    setPublish: React.Dispatch<React.SetStateAction<Value>>;
+    publish: boolean;
+    setPublish: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const blogContext = createContext<BlogContextType>({
@@ -33,7 +32,7 @@ const blogContext = createContext<BlogContextType>({
     setCurrentUser: () => { },
     allUsers: [],
     userLoading: true,
-    publish: "",
+    publish: false,
     setPublish: () => { }
 });
 
@@ -42,7 +41,7 @@ const Context: React.FC<ContextProps> = ({ children }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [allUsers, setAllUsers] = useState<UserDetails[]>([]);
     const [userLoading, setUserLoading] = useState<boolean>(true);
-    const [publish, setPublish] = useState<Value>("");
+    const [publish, setPublish] = useState<boolean>(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {

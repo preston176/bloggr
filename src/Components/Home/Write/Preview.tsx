@@ -3,7 +3,11 @@ import { useRef, useState } from "react";
 import ReactQuill from 'react-quill';
 import TagsInput from 'react-tagsinput';
 
-const Preview = () => {
+interface Props {
+    setPublish: 
+}
+
+const Preview = (setPublish: Props) => {
     const imageRef = useRef<HTMLInputElement>(null);
     const [imageUrl, setImageUrl] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
