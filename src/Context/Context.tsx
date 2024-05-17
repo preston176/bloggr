@@ -1,14 +1,14 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../firebase/firebase";
 import Loading from "../Components/Loading/Loading";
 import { collection, onSnapshot, query } from "firebase/firestore";
-import { User } from "firebase/auth"; // Import User interface
+import { Value } from "react-quill";
 
 interface ContextProps {
     children: React.ReactNode;
 }
-// Define UserDetails interface
+
 export interface UserDetails {
     bio: string;
     email: string;
@@ -16,38 +16,37 @@ export interface UserDetails {
     photoURL: string;
     username: string;
     userImg: string;
-    userId: string
+    userId: string;
 }
-
 
 interface BlogContextType {
     currentUser: User | null;
     setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
     allUsers: UserDetails[];
     userLoading: boolean;
+    publish: Value;
+    setPublish: React.Dispatch<React.SetStateAction<Value>>;
 }
 
 const blogContext = createContext<BlogContextType>({
     currentUser: null,
     setCurrentUser: () => { },
-    allUsers: [], // Provide the initial value for allUsers as an empty array
+    allUsers: [],
     userLoading: true,
+    publish: "",
+    setPublish: () => { }
 });
 
-const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
+const Context: React.FC<ContextProps> = ({ children }) => {
     const [currentUser, setCurrentUser] = useState<User | null>(null);
-    const [loading, setLoading] = useState<boolean>(true); // Set loading to true initially
-    const [allUsers, setAllUsers] = useState<UserDetails[]>([]); // Type allUsers as User[]
-    const [userLoading, setUserLoading] = useState<boolean>(true)
+    const [loading, setLoading] = useState<boolean>(true);
+    const [allUsers, setAllUsers] = useState<UserDetails[]>([]);
+    const [userLoading, setUserLoading] = useState<boolean>(true);
+    const [publish, setPublish] = useState<Value>("");
 
     useEffect(() => {
-        setLoading(true);
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                setCurrentUser(user);
-            } else {
-                setCurrentUser(null);
-            }
+            setCurrentUser(user);
             setLoading(false);
         });
         return unsubscribe;
@@ -55,24 +54,25 @@ const Context: React.FC<ContextProps> = ({ children }: ContextProps) => {
 
     useEffect(() => {
         const getUsers = () => {
-            const postRef = query(collection(db, "users")); // Modify query as needed
-            onSnapshot(postRef, (snapshot) => {
+            const postRef = query(collection(db, "users"));
+            const unsubscribe = onSnapshot(postRef, (snapshot) => {
                 setAllUsers(
                     snapshot.docs.map((doc) => ({
-                        ...doc.data() as UserDetails, // Assert doc.data() as User
+                        ...doc.data() as UserDetails,
                         id: doc.id,
                     }))
                 );
-                setUserLoading(false)
+                setUserLoading(false);
             });
+            return unsubscribe;
         };
-        getUsers();
+        const unsubscribe = getUsers();
+        return unsubscribe;
     }, []);
 
-    // console.log(allUsers); 
     return (
-        <blogContext.Provider value={{ currentUser, setCurrentUser, allUsers, userLoading }}>
-            {loading ? <Loading /> : children}
+        <blogContext.Provider value={{ currentUser, setCurrentUser, allUsers, userLoading, publish, setPublish }}>
+            {loading || userLoading ? <Loading /> : children}
         </blogContext.Provider>
     );
 };
