@@ -4,12 +4,16 @@ import Preview from "./Preview"
 import { useBlogContext } from "../../../Context/Context";
 const Write = () => {
     const [description, setDescription] = useState<string>("");
+    const [title, setTitle] = useState<string>("");
     const { publish, setPublish } = useBlogContext();
     return (
         <section
             className="w-[90%] md:w-[90%] lg:w-[60%] mx-auto py-[3rem]"
         >
-            <input type="text" placeholder="Title" className="text-4xl outline-none w-full" />
+            <input type="text"
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+                value={title}
+                placeholder="Title" className="text-4xl outline-none w-full" />
 
             <ReactQuill
                 theme="bubble"
