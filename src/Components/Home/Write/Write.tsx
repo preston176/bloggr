@@ -23,7 +23,9 @@ const Write = () => {
                 placeholder="Describe Your Story ..."
             />
             <div className={`${publish ? "visible opacity-100" : "invisible opacity-0"} transition-all duration-300`}>
-                <Preview setPublish={setPublish} />
+                <Preview setPublish={setPublish}
+                    description={description}
+                    title={title} />
             </div>
         </section >
     )
