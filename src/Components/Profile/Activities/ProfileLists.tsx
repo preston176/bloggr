@@ -7,6 +7,7 @@ const ProfileLists = ({ getUserData, setEditModal }: {
     return (
         <div>
             ProfileLists
+           
         </div>
     )
 }

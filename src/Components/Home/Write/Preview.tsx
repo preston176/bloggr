@@ -5,12 +5,21 @@ import TagsInput from 'react-tagsinput';
 
 interface Props {
     setPublish: React.Dispatch<React.SetStateAction<boolean>>;
+    description: string;
+    title: string;
 }
 
-const Preview = ({ setPublish }: Props) => {
+const Preview = ({ setPublish, description, title }: Props) => {
     const imageRef = useRef<HTMLInputElement>(null);
     const [imageUrl, setImageUrl] = useState<string>('');
     const [tags, setTags] = useState<string[]>([]);
+    const [desc, setDesc] = useState<string>("");
+
+    const [preview, setPreview] = useState<{ title: string, photo: string }>({
+        title: "",
+        photo: ""
+    })
+
 
     const handleClick = () => {
         imageRef?.current?.click()
@@ -38,13 +47,23 @@ const Preview = ({ setPublish }: Props) => {
                             if (e.target.files && e.target.files.length > 0) {
                                 const file = e.target.files[0]
                                 setImageUrl(URL.createObjectURL(file))
+                                setPreview({
+                                    ...preview, photo: URL.createObjectURL(file)
+                                })
                             }
                         }
                         } ref={imageRef} type="file" hidden />
                         <input type="text"
                             placeholder="Title"
+                            value={preview.title}
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPreview({
+                                ...preview,
+                                title: e.target.value
+                            })}
                             className="outline-none w-full border-b border-gray-300 py-2" />
                         <ReactQuill
+                            value={desc}
+                            onChange={setDesc}
                             theme="bubble"
                             placeholder="Describe Your Story ..."
                             className="py-3 border-b border-gray-300"
